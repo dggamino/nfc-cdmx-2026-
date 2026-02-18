@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>CDMX Transit · FIFA 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:       #0a1628;
+    --surface:  #111d35;
+    --card:     #162240;
+    --border:   #1e3060;
+    --green:    #00e676;
+    --green2:   #00c853;
+    --gold:     #ffd740;
+    --red:      #ff5252;
+    --blue:     #40c4ff;
+    --text:     #e8f0fe;
+    --muted:    #8899bb;
+    --mono:     'Space Mono', monospace;
+    --sans:     'Barlow Condensed', sans-serif;
+    --arabic:   'Noto Sans Arabic', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,230,118,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,230,118,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    padding: 20px 20px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .15em;
+    color: var(--green);
+    text-transform: uppercase;
+  }
+
+  .lang-selector {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+  }
+
+  .lang-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: .05em;
+  }
+  .lang-btn.active, .lang-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,230,118,.08);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 5;
+    padding: 28px 20px 0;
+  }
+
+  .zone-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,230,118,.1);
+    border: 1px solid rgba(0,230,118,.3);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .zone-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .4; transform: scale(1.4); }
+  }
+
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(36px, 10vw, 56px);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 span { color: var(--green); }
+
+  .hero-sub {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: .03em;
+    line-height: 1.5;
+  }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 8px; margin: 24px 20px 0; z-index: 5; position: relative;
+  }
+
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    padding: 28px 20px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    position: relative; z-index: 5;
+  }
+
+  /* ── ROUTE CARDS ── */
+  .routes { padding: 0 20px; z-index: 5; position: relative; }
+
+  .route-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s, transform .15s;
+    cursor: pointer;
+  }
+
+  .route-card:active { transform: scale(.98); }
+
+  .route-card:hover { border-color: rgba(0,230,118,.4); }
+
+  .route-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 14px 0 0 14px;
+  }
+
+  .route-card.metro::before   { background: var(--gold); }
+  .route-card.metrobus::before{ background: var(--red); }
+  .route-card.trolebus::before{ background: var(--blue); }
+
+  .route-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+
+  .route-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
+  .metro   .route-icon { background: rgba(255,215,64,.15); }
+  .metrobus .route-icon { background: rgba(255,82,82,.15); }
+  .trolebus .route-icon { background: rgba(64,196,255,.15); }
+
+  .route-title {
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: .02em;
+    line-height: 1.1;
+  }
+
+  .route-line-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 3px;
+  }
+
+  .metro    .route-line-badge { background: rgba(255,215,64,.2); color: var(--gold); }
+  .metrobus .route-line-badge { background: rgba(255,82,82,.2);  color: var(--red); }
+  .trolebus .route-line-badge { background: rgba(64,196,255,.2); color: var(--blue); }
+
+  .route-steps {
+    list-style: none;
+    border-top: 1px solid var(--border);
+    padding-top: 10px; margin-top: 2px;
+  }
+
+  .route-steps li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 5px 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #ccd8f0;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 18px;
+    padding-top: 2px;
+  }
+
+  .cost-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(0,230,118,.08);
+    border: 1px solid rgba(0,230,118,.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 10px;
+  }
+
+  /* ── ACTION BUTTONS ── */
+  .actions { padding: 8px 20px 0; position: relative; z-index: 5; }
+
+  .btn-maps {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%;
+    background: var(--green);
+    color: #0a1628;
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: background .2s, transform .1s;
+  }
+
+  .btn-maps:active { transform: scale(.97); }
+  .btn-maps:hover  { background: var(--green2); }
+
+  .btn-secondary {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%;
+    background: transparent;
+    color: var(--blue);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 13px;
+    border-radius: 12px;
+    border: 1px solid rgba(64,196,255,.3);
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: all .2s;
+  }
+
+  .btn-secondary:hover { background: rgba(64,196,255,.08); border-color: var(--blue); }
+
+  /* ── TIPS SECTION ── */
+  .tips { padding: 0 20px; position: relative; z-index: 5; }
+
+  .tip-card {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+
+  .tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+  .tip-text { font-size: 13px; line-height: 1.5; color: #aabbd6; font-weight: 400; }
+  .tip-text strong { color: var(--text); font-weight: 600; }
+
+  /* ── EMERGENCY ── */
+  .emergency {
+    margin: 20px;
+    background: rgba(255,82,82,.08);
+    border: 1px solid rgba(255,82,82,.25);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative; z-index: 5;
+  }
+
+  .emergency-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .emergency-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .emg-btn {
+    display: flex; flex-direction: column; align-items: center;
+    background: rgba(255,82,82,.1);
+    border: 1px solid rgba(255,82,82,.2);
+    border-radius: 8px; padding: 10px;
+    text-decoration: none; color: var(--text);
+    transition: background .2s;
+  }
+  .emg-btn:hover { background: rgba(255,82,82,.18); }
+  .emg-btn span:first-child { font-size: 22px; }
+  .emg-btn span:last-child  { font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px 20px 36px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--border);
+    letter-spacing: .1em;
+    position: relative; z-index: 5;
+  }
+
+  /* ── LOADING ── */
+  #loading {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 100;
+    transition: opacity .5s;
+  }
+
+  #loading.fade { opacity: 0; pointer-events: none; }
+
+  .spinner {
+    width: 48px; height: 48px;
+    border: 2px solid var(--border);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .15em;
+    color: var(--green);
+  }
+
+  /* ── RTL support for Arabic ── */
+  [dir="rtl"] { font-family: var(--arabic); }
+  [dir="rtl"] .route-card::before { left: auto; right: 0; border-radius: 0 14px 14px 0; }
+  [dir="rtl"] .route-header { flex-direction: row-reverse; }
+
+  /* ── ANIMATE IN ── */
+  .animate-in {
+    opacity: 0; transform: translateY(18px);
+    animation: fadeUp .5s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">LOCATING ZONE...</div>
+</div>
+
+<div id="app" style="display:none">
+  <header>
+    <div class="logo">⚽ FIFA 2026 · CDMX</div>
+    <div class="lang-selector" id="lang-selector"></div>
+  </header>
+
+  <div class="hero animate-in" style="animation-delay:.1s">
+    <div class="zone-badge" id="zone-badge">—</div>
+    <h1 id="hero-title">GET TO<br><span id="hero-zone">THE GAME</span></h1>
+    <p class="hero-sub" id="hero-sub">Loading routes...</p>
+  </div>
+
+  <div class="stats animate-in" style="animation-delay:.2s">
+    <div class="stat">
+      <div class="stat-val" id="stat-cost">$5</div>
+      <div class="stat-lbl" id="stat-cost-lbl">MXN<br>per ride</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stat-time">—</div>
+      <div class="stat-lbl" id="stat-time-lbl">minutes<br>avg</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stat-save">97%</div>
+      <div class="stat-lbl" id="stat-save-lbl">cheaper<br>vs taxi</div>
+    </div>
+  </div>
+
+  <div class="section-title" id="section-routes-title">— ROUTES</div>
+
+  <div class="routes" id="routes-container"></div>
+
+  <div class="actions animate-in" style="animation-delay:.4s">
+    <a id="btn-maps" href="#" target="_blank" rel="noopener" class="btn-maps">
+      🗺 <span id="btn-maps-text">Open in Google Maps</span>
+    </a>
+    <a id="btn-moovit" href="#" target="_blank" rel="noopener" class="btn-secondary">
+      🚇 <span id="btn-moovit-text">Open in Moovit</span>
+    </a>
+  </div>
+
+  <div class="section-title" id="section-tips-title">— TIPS</div>
+
+  <div class="tips" id="tips-container"></div>
+
+  <div class="emergency animate-in" style="animation-delay:.5s">
+    <div class="emergency-title" id="emg-title">EMERGENCY</div>
+    <div class="emergency-grid">
+      <a href="tel:911" class="emg-btn"><span>🚨</span><span>911</span></a>
+      <a href="tel:078" class="emg-btn"><span>📞</span><span>LOCATEL 078</span></a>
+      <a href="tel:5555165100" class="emg-btn"><span>🏥</span><span id="emg-tourist">Tourist Help</span></a>
+      <a href="https://wa.me/525555165100" class="emg-btn" target="_blank"><span>💬</span><span>WhatsApp</span></a>
+    </div>
+  </div>
+
+  <footer id="footer-text">NFC TRANSIT · CDMX 2026 · TAP. RIDE. ENJOY.</footer>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA: ZONES × LANGUAGES
+// ══════════════════════════════════════════
+
+const ZONES = {
+
+  azteca: {
+    name: { en:"Estadio Azteca", es:"Estadio Azteca", fr:"Stade Aztèque", pt:"Estádio Azteca", ar:"ملعب أزتيكا" },
+    time: "35",
+    mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
+    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
+    routes: [
+      {
+        type: "metro",
+        icon: "🚇",
+        name: { en:"Metro Line 2", es:"Metro Línea 2", fr:"Métro Ligne 2", pt:"Metrô Linha 2", ar:"مترو الخط 2" },
+        line: "L2",
+        steps: {
+          en: ["Board Metro Line 2 (Blue) toward Tasqueña","Ride to Tasqueña terminal (end of line)","Exit and take Bus Route 51 or Pesero toward Azteca","~10 min walk from Calzada de Tlalpan stop"],
+          es: ["Toma Metro Línea 2 (Azul) dirección Tasqueña","Baja en Tasqueña (última estación)","Toma Bus 51 o Pesero hacia el Estadio Azteca","~10 min caminando desde Calzada de Tlalpan"],
+          fr: ["Prenez le Métro Ligne 2 (Bleu) vers Tasqueña","Descendez à Tasqueña (terminus)","Prenez le Bus 51 ou Pesero vers l'Azteca","~10 min à pied depuis Calzada de Tlalpan"],
+          pt: ["Pegue o Metrô Linha 2 (Azul) até Tasqueña","Desça em Tasqueña (terminal)","Pegue o Ônibus 51 ou Pesero para o Estádio","~10 min a pé da Calzada de Tlalpan"],
+          ar: ["ركب مترو الخط 2 (أزرق) نحو Tasqueña","انزل في Tasqueña (المحطة النهائية)","خذ الحافلة 51 أو Pesero نحو الملعب","~10 دقائق مشياً من Calzada de Tlalpan"]
+        },
+        cost: "$5 MXN"
+      },
+      {
+        type: "metrobus",
+        icon: "🚌",
+        name: { en:"Metrobus Line 1", es:"Metrobús Línea 1", fr:"Métrobus Ligne 1", pt:"Metrobus Linha 1", ar:"الميتروباص الخط 1" },
+        line: "MB-1",
+        steps: {
+          en: ["Take Metrobus Line 1 (Red) southbound","Get off at Estadio Azteca stop","Direct — no transfers needed","Runs every 5–8 min during match day"],
+          es: ["Toma Metrobús Línea 1 (Rojo) dirección sur","Baja en la parada Estadio Azteca","Directo — sin transbordo","Sale cada 5-8 min en día de partido"],
+          fr: ["Prenez le Métrobus Ligne 1 (Rouge) vers le sud","Descendez à l'arrêt Estadio Azteca","Direct — sans correspondance","Toutes les 5-8 min les jours de match"],
+          pt: ["Pegue o Metrobus Linha 1 (Vermelho) sul","Desça na parada Estadio Azteca","Direto — sem baldeação","A cada 5-8 min em dia de jogo"],
+          ar: ["خذ ميتروباص الخط 1 (أحمر) جنوباً","انزل في محطة Estadio Azteca","مباشر — بدون تحويل","كل 5-8 دقائق أيام المباريات"]
+        },
+        cost: "$6 MXN"
+      }
+    ],
+    tips: {
+      en: [
+        { icon:"⏰", text:"<strong>Match days:</strong> Leave 2 hours early. Trains get very crowded 90 min before kickoff." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX:</strong> Buy the transit card at any Metro station. Works on all lines. Avoid cash lines." },
+        { icon:"🎒", text:"<strong>Security:</strong> Keep bags in front. Avoid large backpacks on crowded trains." }
+      ],
+      es: [
+        { icon:"⏰", text:"<strong>Días de partido:</strong> Sal 2 horas antes. El Metro se llena 90 min antes del partido." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX:</strong> Cómprala en cualquier estación. Funciona en todas las líneas." },
+        { icon:"🎒", text:"<strong>Seguridad:</strong> Carga la mochila al frente en trenes llenos." }
+      ],
+      fr: [
+        { icon:"⏰", text:"<strong>Jours de match:</strong> Partez 2 heures à l'avance. Les trains sont bondés 90 min avant." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX:</strong> Achetez-la dans n'importe quelle station de Métro." },
+        { icon:"🎒", text:"<strong>Sécurité:</strong> Gardez vos sacs devant vous dans les trains bondés." }
+      ],
+      pt: [
+        { icon:"⏰", text:"<strong>Dias de jogo:</strong> Saia 2 horas antes. Os trens ficam lotados 90 min antes." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX:</strong> Compre em qualquer estação do Metrô. Aceita em todas as linhas." },
+        { icon:"🎒", text:"<strong>Segurança:</strong> Mantenha as bolsas na frente em trens cheios." }
+      ],
+      ar: [
+        { icon:"⏰", text:"<strong>أيام المباريات:</strong> اغادر قبل 2 ساعة. القطارات مكتظة قبل 90 دقيقة من البداية." },
+        { icon:"💳", text:"<strong>بطاقة CDMX:</strong> اشترها في أي محطة مترو. تعمل في جميع الخطوط." },
+        { icon:"🎒", text:"<strong>الأمان:</strong> احتفظ بحقيبتك أمامك في القطارات المزدحمة." }
+      ]
+    }
+  },
+
+  aicm: {
+    name: { en:"Airport (AICM)", es:"Aeropuerto (AICM)", fr:"Aéroport (AICM)", pt:"Aeroporto (AICM)", ar:"المطار (AICM)" },
+    time: "45",
+    mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Aeropuerto+Internacional+Ciudad+de+Mexico&destination=Centro+Historico+CDMX&travelmode=transit",
+    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
+    routes: [
+      {
+        type: "metro",
+        icon: "🚇",
+        name: { en:"Metro Line 5", es:"Metro Línea 5", fr:"Métro Ligne 5", pt:"Metrô Linha 5", ar:"مترو الخط 5" },
+        line: "L5",
+        steps: {
+          en: ["At Terminal 1: walk to Metro Terminal Aérea station","At Terminal 2: walk to Metro Terminal 2 station","Take Line 5 (Yellow) westbound","Transfer at Pantitlán to Line 1 (Pink) for downtown"],
+          es: ["T1: camina a Metro Terminal Aérea","T2: camina a Metro Terminal 2","Toma Línea 5 (Amarilla) dirección oeste","Transborda en Pantitlán a Línea 1 (Rosa) para el centro"],
+          fr: ["T1: marchez vers Metro Terminal Aérea","T2: marchez vers Metro Terminal 2","Prenez la Ligne 5 (Jaune) vers l'ouest","Correspondance à Pantitlán → Ligne 1 (Rose) pour le centre"],
+          pt: ["T1: caminhe até Metro Terminal Aérea","T2: caminhe até Metro Terminal 2","Linha 5 (Amarela) sentido oeste","Baldeação em Pantitlán → Linha 1 (Rosa) para o centro"],
+          ar: ["T1: اسر إلى محطة Metro Terminal Aérea","T2: اسر إلى محطة Metro Terminal 2","الخط 5 (أصفر) غرباً","انتقل في Pantitlán إلى الخط 1 (وردي) للمركز"]
+        },
+        cost: "$5 MXN"
+      },
+      {
+        type: "metrobus",
+        icon: "🚌",
+        name: { en:"Metrobus Line 4 (Express)", es:"Metrobús Línea 4 (Express)", fr:"Métrobus Ligne 4 (Express)", pt:"Metrobus Linha 4 (Express)", ar:"الميتروباص الخط 4 إكسبريس" },
+        line: "MB-4",
+        steps: {
+          en: ["From Terminal 1 or 2 bus terminal area","Take Metrobus Line 4 Express (Red)","Direct to Buenavista or Hidalgo stations","No transfers — most comfortable option"],
+          es: ["Desde la zona de autobuses de T1 o T2","Toma Metrobús Línea 4 Express (Rojo)","Directo a Buenavista o Hidalgo","Sin transbordo — opción más cómoda"],
+          fr: ["Depuis la zone bus de T1 ou T2","Prenez le Métrobus Ligne 4 Express (Rouge)","Direct vers Buenavista ou Hidalgo","Sans correspondance — option la plus confortable"],
+          pt: ["Da área de ônibus do T1 ou T2","Metrobus Linha 4 Express (Vermelho)","Direto para Buenavista ou Hidalgo","Sem baldeação — opção mais confortável"],
+          ar: ["من منطقة الحافلات في T1 أو T2","ميتروباص الخط 4 إكسبريس (أحمر)","مباشر إلى Buenavista أو Hidalgo","بدون تحويل — الخيار الأكثر راحة"]
+        },
+        cost: "$6 MXN"
+      }
+    ],
+    tips: {
+      en: [
+        { icon:"🧳", text:"<strong>Luggage:</strong> Metro allows bags but it gets crowded. Metrobus Line 4 is more spacious." },
+        { icon:"💱", text:"<strong>Money:</strong> Exchange at the airport only what you need. Better rates in the city." },
+        { icon:"📶", text:"<strong>SIM card:</strong> Buy a Telcel or AT&T prepaid SIM at the airport. ~$200 MXN for 3GB." }
+      ],
+      es: [
+        { icon:"🧳", text:"<strong>Equipaje:</strong> El Metro permite maletas pero se llena. El Metrobús L4 es más espacioso." },
+        { icon:"💱", text:"<strong>Dinero:</strong> Cambia solo lo necesario en el aeropuerto. Mejores tipos en la ciudad." },
+        { icon:"📶", text:"<strong>SIM:</strong> Compra una SIM prepago Telcel o AT&T. ~$200 MXN por 3GB." }
+      ],
+      fr: [
+        { icon:"🧳", text:"<strong>Bagages:</strong> Le Métro accepte les valises mais est bondé. Le Métrobus L4 est plus spacieux." },
+        { icon:"💱", text:"<strong>Argent:</strong> Changez seulement le nécessaire à l'aéroport. Meilleurs taux en ville." },
+        { icon:"📶", text:"<strong>SIM:</strong> Achetez une SIM prépayée Telcel ou AT&T. ~200 MXN pour 3GB." }
+      ],
+      pt: [
+        { icon:"🧳", text:"<strong>Bagagem:</strong> O Metrô aceita malas mas fica lotado. O Metrobus L4 é mais espaçoso." },
+        { icon:"💱", text:"<strong>Câmbio:</strong> Troque apenas o necessário no aeroporto. Taxas melhores na cidade." },
+        { icon:"📶", text:"<strong>SIM:</strong> Compre um chip Telcel ou AT&T. ~$200 MXN por 3GB." }
+      ],
+      ar: [
+        { icon:"🧳", text:"<strong>الأمتعة:</strong> المترو يسمح بالحقائب لكنه مزدحم. ميتروباص L4 أكثر اتساعاً." },
+        { icon:"💱", text:"<strong>العملة:</strong> صرف ما تحتاجه فقط في المطار. أسعار أفضل في المدينة." },
+        { icon:"📶", text:"<strong>شريحة SIM:</strong> اشتر شريحة Telcel أو AT&T. ~200 MXN لـ 3GB." }
+      ]
+    }
+  },
+
+  reforma: {
+    name: { en:"Reforma / Zona Rosa", es:"Reforma / Zona Rosa", fr:"Reforma / Zona Rosa", pt:"Reforma / Zona Rosa", ar:"Reforma / زونا روسا" },
+    time: "25",
+    mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Paseo+de+la+Reforma+Mexico+City&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
+    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
+    routes: [
+      {
+        type: "metro",
+        icon: "🚇",
+        name: { en:"Metro Line 1", es:"Metro Línea 1", fr:"Métro Ligne 1", pt:"Metrô Linha 1", ar:"مترو الخط 1" },
+        line: "L1",
+        steps: {
+          en: ["Walk to Insurgentes or Sevilla Metro station","Take Line 1 (Pink) eastbound to Salto del Agua","Transfer to Line 8 (Green) southbound","Ride to General Anaya — short walk to Fan Zone"],
+          es: ["Camina a Metro Insurgentes o Sevilla","Toma Línea 1 (Rosa) dirección oriente a Salto del Agua","Transborda a Línea 8 (Verde) dirección sur","Baja en General Anaya — corta caminata a Fan Zone"],
+          fr: ["Marchez vers Metro Insurgentes ou Sevilla","Ligne 1 (Rose) vers Salto del Agua","Correspondance Ligne 8 (Vert) vers le sud","Descendez à General Anaya — Fan Zone à pied"],
+          pt: ["Vá até Metro Insurgentes ou Sevilla","Linha 1 (Rosa) leste até Salto del Agua","Baldeação Linha 8 (Verde) sul","Desça em General Anaya — Fan Zone a pé"],
+          ar: ["اسر إلى محطة Insurgentes أو Sevilla","الخط 1 (وردي) شرقاً إلى Salto del Agua","انتقل إلى الخط 8 (أخضر) جنوباً","انزل في General Anaya — المنطقة المروحية بالقرب"]
+        },
+        cost: "$5 MXN"
+      },
+      {
+        type: "metrobus",
+        icon: "🚌",
+        name: { en:"Metrobus Line 1", es:"Metrobús Línea 1", fr:"Métrobus Ligne 1", pt:"Metrobus Linha 1", ar:"الميتروباص الخط 1" },
+        line: "MB-1",
+        steps: {
+          en: ["Find Metrobus Line 1 (Red) on Insurgentes Ave","Take southbound toward Estadio Azteca","Stay on until Estadio Azteca terminal stop","Direct — no transfers needed"],
+          es: ["Sube al Metrobús L1 (Rojo) en Insurgentes","Dirección sur hacia Estadio Azteca","Baja en la parada terminal Estadio Azteca","Directo — sin transbordo"],
+          fr: ["Prenez le Métrobus L1 (Rouge) sur Insurgentes","Direction sud vers Estadio Azteca","Descendez à l'arrêt terminal Estadio Azteca","Direct — sans correspondance"],
+          pt: ["Pegue o Metrobus L1 (Vermelho) na Insurgentes","Sentido sul para Estadio Azteca","Desça na parada terminal Estadio Azteca","Direto — sem baldeação"],
+          ar: ["خذ ميتروباص L1 (أحمر) في شارع Insurgentes","جنوباً نحو Estadio Azteca","انزل في المحطة النهائية Estadio Azteca","مباشر — بدون تحويل"]
+        },
+        cost: "$6 MXN"
+      }
+    ],
+    tips: {
+      en: [
+        { icon:"🏨", text:"<strong>Hotel checkout:</strong> Leave bags at the hotel. Metro is cramped on match days." },
+        { icon:"⭐", text:"<strong>Insurgentes station</strong> is the best starting point — well connected and easy to find." },
+        { icon:"🌮", text:"<strong>Eat before you go:</strong> Food near the stadium is expensive. Grab tacos on Reforma first." }
+      ],
+      es: [
+        { icon:"🏨", text:"<strong>Maletas:</strong> Deja el equipaje en el hotel. El Metro se llena en días de partido." },
+        { icon:"⭐", text:"<strong>Estación Insurgentes</strong> es el mejor punto de partida — bien conectada y fácil de encontrar." },
+        { icon:"🌮", text:"<strong>Come antes:</strong> La comida cerca del estadio es cara. Unos tacos en Reforma primero." }
+      ],
+      fr: [
+        { icon:"🏨", text:"<strong>Bagages:</strong> Laissez vos valises à l'hôtel. Le Métro est bondé les jours de match." },
+        { icon:"⭐", text:"<strong>Station Insurgentes</strong> est le meilleur point de départ — bien connectée et facile à trouver." },
+        { icon:"🌮", text:"<strong>Mangez avant:</strong> La nourriture près du stade est chère. Des tacos sur Reforma d'abord." }
+      ],
+      pt: [
+        { icon:"🏨", text:"<strong>Malas:</strong> Deixe a bagagem no hotel. O Metrô fica cheio nos dias de jogo." },
+        { icon:"⭐", text:"<strong>Estação Insurgentes</strong> é o melhor ponto de partida — bem conectada e fácil de achar." },
+        { icon:"🌮", text:"<strong>Coma antes:</strong> Comida perto do estádio é cara. Tacos na Reforma primeiro." }
+      ],
+      ar: [
+        { icon:"🏨", text:"<strong>الأمتعة:</strong> اترك حقائبك في الفندق. المترو مكتظ أيام المباريات." },
+        { icon:"⭐", text:"<strong>محطة Insurgentes</strong> هي أفضل نقطة انطلاق — متصلة جيداً وسهلة الإيجاد." },
+        { icon:"🌮", text:"<strong>تناول الطعام قبل الذهاب:</strong> الطعام قرب الملعب غالٍ. تاكوس على Reforma أولاً." }
+      ]
+    }
+  },
+
+  centro: {
+    name: { en:"Centro Histórico", es:"Centro Histórico", fr:"Centre Historique", pt:"Centro Histórico", ar:"المركز التاريخي" },
+    time: "30",
+    mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Zocalo+Ciudad+de+Mexico&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
+    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
+    routes: [
+      {
+        type: "metro",
+        icon: "🚇",
+        name: { en:"Metro Line 2", es:"Metro Línea 2", fr:"Métro Ligne 2", pt:"Metrô Linha 2", ar:"مترو الخط 2" },
+        line: "L2",
+        steps: {
+          en: ["Walk to Zócalo (Line 2) or Pino Suárez (Lines 1+2)","Take Line 2 (Blue) southbound toward Tasqueña","Ride to Tasqueña terminal station","Take Bus 51 or Pesero toward Estadio Azteca"],
+          es: ["Camina a Zócalo (L2) o Pino Suárez (L1+L2)","Toma L2 (Azul) dirección sur a Tasqueña","Baja en Tasqueña (terminal)","Toma Bus 51 o Pesero al Estadio Azteca"],
+          fr: ["Allez à Zócalo (L2) ou Pino Suárez (L1+L2)","Ligne 2 (Bleu) vers le sud jusqu'à Tasqueña","Descendez à Tasqueña (terminus)","Bus 51 ou Pesero vers l'Estadio Azteca"],
+          pt: ["Vá a Zócalo (L2) ou Pino Suárez (L1+L2)","Linha 2 (Azul) sul até Tasqueña","Desça em Tasqueña (terminal)","Ônibus 51 ou Pesero para o Estádio Azteca"],
+          ar: ["اذهب إلى Zócalo (L2) أو Pino Suárez (L1+L2)","الخط 2 (أزرق) جنوباً إلى Tasqueña","انزل في Tasqueña (المحطة النهائية)","الحافلة 51 أو Pesero إلى الملعب"]
+        },
+        cost: "$5 MXN"
+      },
+      {
+        type: "trolebus",
+        icon: "⚡",
+        name: { en:"Trolleybus — Eje Central", es:"Trolebús — Eje Central", fr:"Trolleybus — Eje Central", pt:"Trólebus — Eje Central", ar:"الترولي باص — Eje Central" },
+        line: "TROL",
+        steps: {
+          en: ["Find Trolebús on Eje Central Lázaro Cárdenas","Take southbound toward Taxqueña","Ride approx. 40 minutes — scenic route","Walk or transfer bus to Estadio Azteca"],
+          es: ["Sube al Trolebús en Eje Central Lázaro Cárdenas","Dirección sur hacia Taxqueña","~40 minutos — ruta panorámica","Camina o toma pesero al Estadio"],
+          fr: ["Prenez le Trolleybus sur Eje Central","Direction sud vers Taxqueña","~40 minutes — route panoramique","Marchez ou bus jusqu'au stade"],
+          pt: ["Pegue o Trólebus no Eje Central","Sentido sul para Taxqueña","~40 minutos — rota panorâmica","Caminhe ou ônibus para o estádio"],
+          ar: ["ركب الترولي في Eje Central","جنوباً نحو Taxqueña","~40 دقيقة — مسار بانورامي","اسر أو خذ حافلة إلى الملعب"]
+        },
+        cost: "$7 MXN"
+      }
+    ],
+    tips: {
+      en: [
+        { icon:"🏛️", text:"<strong>Arrive early:</strong> Centro Histórico is beautiful. Walk the Zócalo before heading to the game." },
+        { icon:"📸", text:"<strong>Palacio de Bellas Artes</strong> is steps from Metro Bellas Artes (Line 2). Worth a photo." },
+        { icon:"🚰", text:"<strong>Hydration:</strong> Altitude in CDMX is 2,240m. Drink water and pace yourself." }
+      ],
+      es: [
+        { icon:"🏛️", text:"<strong>Llega temprano:</strong> El Centro Histórico es precioso. Camina el Zócalo antes del partido." },
+        { icon:"📸", text:"<strong>Palacio de Bellas Artes</strong> está a pasos del Metro Bellas Artes (L2). Vale la foto." },
+        { icon:"🚰", text:"<strong>Hidratación:</strong> La altitud es 2,240m. Toma agua seguido." }
+      ],
+      fr: [
+        { icon:"🏛️", text:"<strong>Arrivez tôt:</strong> Le Centre Historique est magnifique. Promenez-vous au Zócalo avant le match." },
+        { icon:"📸", text:"<strong>Palacio de Bellas Artes</strong> est à deux pas du Métro Bellas Artes (L2). Parfait pour une photo." },
+        { icon:"🚰", text:"<strong>Hydratation:</strong> Altitude de 2.240m. Buvez de l'eau régulièrement." }
+      ],
+      pt: [
+        { icon:"🏛️", text:"<strong>Chegue cedo:</strong> O Centro Histórico é lindo. Passeie pelo Zócalo antes do jogo." },
+        { icon:"📸", text:"<strong>Palacio de Bellas Artes</strong> fica perto do Metrô Bellas Artes (L2). Vale a foto." },
+        { icon:"🚰", text:"<strong>Hidratação:</strong> A altitude é 2.240m. Beba água com frequência." }
+      ],
+      ar: [
+        { icon:"🏛️", text:"<strong>اصل مبكراً:</strong> المركز التاريخي جميل. تجول في الزوكالو قبل المباراة." },
+        { icon:"📸", text:"<strong>قصر بيلاس آرتيس</strong> بجانب محطة المترو Bellas Artes (L2). يستحق صورة." },
+        { icon:"🚰", text:"<strong>الترطيب:</strong> الارتفاع 2240 متر. اشرب الماء باستمرار." }
+      ]
+    }
+  },
+
+  spare: {
+    name: { en:"CDMX Transit Hub", es:"Hub de Transporte CDMX", fr:"Hub Transport CDMX", pt:"Hub de Transporte CDMX", ar:"مركز النقل CDMX" },
+    time: "—",
+    mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=Ciudad+de+Mexico&travelmode=transit",
+    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
+    routes: [
+      {
+        type: "metro",
+        icon: "🚇",
+        name: { en:"Metro Network", es:"Red del Metro", fr:"Réseau de Métro", pt:"Rede de Metrô", ar:"شبكة المترو" },
+        line: "L1-L12",
+        steps: {
+          en: ["12 Metro lines cover the entire city","Pink card (Tarjeta CDMX) works on all lines","Single fare: $5 MXN regardless of distance","Metro hours: 5AM – 12AM (Sat until 2AM)"],
+          es: ["12 líneas del Metro cubren toda la ciudad","La Tarjeta CDMX funciona en todas las líneas","Un boleto: $5 MXN sin importar distancia","Horario: 5AM – 12AM (Sáb hasta 2AM)"],
+          fr: ["12 lignes de Métro couvrent toute la ville","Tarjeta CDMX valable sur toutes les lignes","Un ticket: 5 MXN quelle que soit la distance","Horaires: 5h – 0h (Sam jusqu'à 2h)"],
+          pt: ["12 linhas do Metrô cobrem toda a cidade","Tarjeta CDMX funciona em todas as linhas","Uma viagem: $5 MXN independente da distância","Horário: 5h – 0h (Sáb até 2h)"],
+          ar: ["12 خطاً للمترو يغطي المدينة بالكامل","بطاقة CDMX تعمل في جميع الخطوط","تذكرة واحدة: 5 MXN بغض النظر عن المسافة","مواعيد العمل: 5 صباحاً – 12 منتصف الليل"]
+        },
+        cost: "$5 MXN"
+      }
+    ],
+    tips: {
+      en: [
+        { icon:"🗺️", text:"<strong>Scan this QR</strong> to get the full Metro map in English on your phone." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX</strong> saves time. Buy at any Metro station for $15 MXN + load credit." },
+        { icon:"📍", text:"<strong>Ask at your hotel</strong> for the nearest Metro station — staff usually speaks some English." }
+      ],
+      es: [
+        { icon:"🗺️", text:"<strong>Escanea el QR</strong> para obtener el mapa del Metro en tu teléfono." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX</strong> ahorra tiempo. Cuesta $15 MXN + carga en cualquier estación." },
+        { icon:"📍", text:"<strong>Pregunta en tu hotel</strong> cuál es la estación más cercana." }
+      ],
+      fr: [
+        { icon:"🗺️", text:"<strong>Scannez ce QR</strong> pour obtenir le plan du Métro en français sur votre téléphone." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX</strong> fait gagner du temps. 15 MXN + recharge dans n'importe quelle station." },
+        { icon:"📍", text:"<strong>Demandez à votre hôtel</strong> la station de Métro la plus proche." }
+      ],
+      pt: [
+        { icon:"🗺️", text:"<strong>Escaneie o QR</strong> para obter o mapa do Metrô em português no seu celular." },
+        { icon:"💳", text:"<strong>Tarjeta CDMX</strong> economiza tempo. R$15 MXN + recarga em qualquer estação." },
+        { icon:"📍", text:"<strong>Pergunte no hotel</strong> qual é a estação de Metrô mais próxima." }
+      ],
+      ar: [
+        { icon:"🗺️", text:"<strong>امسح QR</strong> للحصول على خريطة المترو بالعربية على هاتفك." },
+        { icon:"💳", text:"<strong>بطاقة CDMX</strong> توفر الوقت. 15 MXN + شحن في أي محطة." },
+        { icon:"📍", text:"<strong>اسأل في فندقك</strong> عن أقرب محطة مترو." }
+      ]
+    }
+  }
+};
+
+// ══════════════════════════════════════════
+//  TRANSLATIONS (UI strings)
+// ══════════════════════════════════════════
+
+const I18N = {
+  en: {
+    zone_prefix: "ZONE",
+    hero_title: "GET TO",
+    hero_sub: "Low-cost public transit routes · No app needed",
+    stat_cost_lbl: "MXN\nper ride",
+    stat_time_lbl: "minutes\navg trip",
+    stat_save_lbl: "cheaper\nvs taxi",
+    section_routes: "— ROUTES",
+    section_tips: "— TIPS",
+    btn_maps: "Open in Google Maps",
+    btn_moovit: "Open in Moovit",
+    emg_title: "EMERGENCY",
+    emg_tourist: "Tourist Help",
+    footer: "NFC TRANSIT · CDMX 2026 · TAP. RIDE. ENJOY.",
+  },
+  es: {
+    zone_prefix: "ZONA",
+    hero_title: "LLEGA AL",
+    hero_sub: "Rutas de transporte público · Sin descargar apps",
+    stat_cost_lbl: "MXN\npor viaje",
+    stat_time_lbl: "minutos\npromedio",
+    stat_save_lbl: "más barato\nvs taxi",
+    section_routes: "— RUTAS",
+    section_tips: "— CONSEJOS",
+    btn_maps: "Abrir en Google Maps",
+    btn_moovit: "Abrir en Moovit",
+    emg_title: "EMERGENCIAS",
+    emg_tourist: "Turista 078",
+    footer: "NFC TRANSPORTE · CDMX 2026",
+  },
+  fr: {
+    zone_prefix: "ZONE",
+    hero_title: "ALLEZ AU",
+    hero_sub: "Transports en commun · Sans application requise",
+    stat_cost_lbl: "MXN\npar trajet",
+    stat_time_lbl: "minutes\nmoy. trajet",
+    stat_save_lbl: "moins cher\nvs taxi",
+    section_routes: "— TRAJETS",
+    section_tips: "— CONSEILS",
+    btn_maps: "Ouvrir dans Google Maps",
+    btn_moovit: "Ouvrir dans Moovit",
+    emg_title: "URGENCES",
+    emg_tourist: "Aide Touriste",
+    footer: "NFC TRANSIT · CDMX 2026",
+  },
+  pt: {
+    zone_prefix: "ZONA",
+    hero_title: "VÁ AO",
+    hero_sub: "Transporte público · Sem precisar instalar apps",
+    stat_cost_lbl: "MXN\npor viagem",
+    stat_time_lbl: "minutos\nviagem média",
+    stat_save_lbl: "mais barato\nvs táxi",
+    section_routes: "— ROTAS",
+    section_tips: "— DICAS",
+    btn_maps: "Abrir no Google Maps",
+    btn_moovit: "Abrir no Moovit",
+    emg_title: "EMERGÊNCIA",
+    emg_tourist: "Ajuda Turista",
+    footer: "NFC TRÂNSITO · CDMX 2026",
+  },
+  ar: {
+    zone_prefix: "منطقة",
+    hero_title: "اذهب إلى",
+    hero_sub: "مواصلات عامة منخفضة التكلفة · بدون تطبيق",
+    stat_cost_lbl: "MXN\nللرحلة",
+    stat_time_lbl: "دقيقة\nمتوسط الرحلة",
+    stat_save_lbl: "أرخص\nمن التاكسي",
+    section_routes: "— المسارات",
+    section_tips: "— نصائح",
+    btn_maps: "افتح في خرائط Google",
+    btn_moovit: "افتح في Moovit",
+    emg_title: "طوارئ",
+    emg_tourist: "مساعدة السياح",
+    footer: "NFC النقل · CDMX 2026",
+  }
+};
+
+const LANGS = ['en','es','fr','pt','ar'];
+const LANG_LABELS = { en:'EN', es:'ES', fr:'FR', pt:'PT', ar:'عر' };
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+
+let currentLang = 'en';
+let currentZone = 'azteca';
+
+function detectLang() {
+  const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+  if (nav.startsWith('ar')) return 'ar';
+  if (nav.startsWith('fr')) return 'fr';
+  if (nav.startsWith('pt')) return 'pt';
+  if (nav.startsWith('es')) return 'es';
+  return 'en';
+}
+
+function detectZone() {
+  const params = new URLSearchParams(window.location.search);
+  const z = params.get('zona') || params.get('zone') || 'azteca';
+  return ZONES[z] ? z : 'azteca';
+}
+
+function buildLangSelector() {
+  const container = document.getElementById('lang-selector');
+  container.innerHTML = '';
+  LANGS.forEach(lg => {
+    const btn = document.createElement('button');
+    btn.className = 'lang-btn' + (lg === currentLang ? ' active' : '');
+    btn.textContent = LANG_LABELS[lg];
+    btn.onclick = () => { currentLang = lg; render(); };
+    container.appendChild(btn);
+  });
+}
+
+function buildRoutes(zone, lang) {
+  const container = document.getElementById('routes-container');
+  container.innerHTML = '';
+  zone.routes.forEach((route, idx) => {
+    const card = document.createElement('div');
+    card.className = `route-card ${route.type} animate-in`;
+    card.style.animationDelay = `${0.3 + idx * 0.1}s`;
+
+    const steps = (route.steps[lang] || route.steps.en)
+      .map((s,i) => `<li><span class="step-num">${String(i+1).padStart(2,'0')}</span><span>${s}</span></li>`)
+      .join('');
+
+    card.innerHTML = `
+      <div class="route-header">
+        <div class="route-icon">${route.icon}</div>
+        <div>
+          <div class="route-title">${route.name[lang] || route.name.en}</div>
+          <span class="route-line-badge">${route.line}</span>
+        </div>
+      </div>
+      <ul class="route-steps">${steps}</ul>
+      <div class="cost-badge">✓ ${route.cost}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function buildTips(zone, lang) {
+  const container = document.getElementById('tips-container');
+  container.innerHTML = '';
+  const tips = (zone.tips && zone.tips[lang]) || zone.tips?.en || [];
+  tips.forEach((tip, idx) => {
+    const div = document.createElement('div');
+    div.className = 'tip-card animate-in';
+    div.style.animationDelay = `${0.45 + idx * 0.08}s`;
+    div.innerHTML = `
+      <div class="tip-icon">${tip.icon}</div>
+      <div class="tip-text">${tip.text}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function render() {
+  const zone = ZONES[currentZone];
+  const lang = currentLang;
+  const t = I18N[lang];
+
+  // RTL
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', lang);
+
+  // Hero
+  document.getElementById('zone-badge').textContent = `${t.zone_prefix}: ${zone.name[lang] || zone.name.en}`;
+  document.getElementById('hero-title').innerHTML = `${t.hero_title}<br><span>${zone.name[lang] || zone.name.en}</span>`;
+  document.getElementById('hero-sub').textContent = t.hero_sub;
+
+  // Stats
+  document.getElementById('stat-time').textContent = zone.time;
+  document.getElementById('stat-cost-lbl').textContent = t.stat_cost_lbl.replace('\n', ' ');
+  document.getElementById('stat-time-lbl').textContent = t.stat_time_lbl.replace('\n', ' ');
+  document.getElementById('stat-save-lbl').textContent = t.stat_save_lbl.replace('\n', ' ');
+
+  // Sections
+  document.getElementById('section-routes-title').textContent = t.section_routes;
+  document.getElementById('section-tips-title').textContent = t.section_tips;
+
+  // Buttons
+  document.getElementById('btn-maps').href = zone.mapsUrl;
+  document.getElementById('btn-moovit').href = zone.moovitUrl;
+  document.getElementById('btn-maps-text').textContent = t.btn_maps;
+  document.getElementById('btn-moovit-text').textContent = t.btn_moovit;
+
+  // Emergency
+  document.getElementById('emg-title').textContent = t.emg_title;
+  document.getElementById('emg-tourist').textContent = t.emg_tourist;
+
+  // Footer
+  document.getElementById('footer-text').textContent = t.footer;
+
+  // Lang selector
+  buildLangSelector();
+
+  // Routes + Tips
+  buildRoutes(zone, lang);
+  buildTips(zone, lang);
+}
+
+// ── BOOT ──
+window.addEventListener('DOMContentLoaded', () => {
+  currentLang = detectLang();
+  currentZone = detectZone();
+
+  const loadTxt = document.getElementById('loading-text');
+  setTimeout(() => { loadTxt.textContent = 'LOADING ROUTES...'; }, 300);
+  setTimeout(() => { loadTxt.textContent = 'ALMOST THERE...'; }, 600);
+
+  setTimeout(() => {
+    render();
+    document.getElementById('app').style.display = 'block';
+    const loading = document.getElementById('loading');
+    loading.classList.add('fade');
+    setTimeout(() => loading.style.display = 'none', 500);
+  }, 900);
+});
+</script>
+</body>
+</html>
