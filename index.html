@@ -38,7 +38,6 @@
     overflow-x: hidden;
   }
 
-  /* ── GRID BACKGROUND ── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -49,7 +48,6 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* ── HEADER ── */
   header {
     position: relative; z-index: 10;
     padding: 20px 20px 0;
@@ -74,19 +72,25 @@
     color: var(--muted);
     font-family: var(--mono);
     font-size: 10px;
-    padding: 4px 8px;
+    padding: 5px 9px;
     border-radius: 4px;
     cursor: pointer;
     transition: all .2s;
     letter-spacing: .05em;
+    font-weight: 700;
   }
-  .lang-btn.active, .lang-btn:hover {
+  .lang-btn.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,230,118,.12);
+    box-shadow: 0 0 8px rgba(0,230,118,.2);
+  }
+  .lang-btn:hover {
     border-color: var(--green);
     color: var(--green);
     background: rgba(0,230,118,.08);
   }
 
-  /* ── HERO ── */
   .hero {
     position: relative; z-index: 5;
     padding: 28px 20px 0;
@@ -139,7 +143,6 @@
     line-height: 1.5;
   }
 
-  /* ── STATS ROW ── */
   .stats {
     display: grid; grid-template-columns: repeat(3,1fr);
     gap: 8px; margin: 24px 20px 0; z-index: 5; position: relative;
@@ -170,7 +173,6 @@
     line-height: 1.3;
   }
 
-  /* ── SECTION TITLE ── */
   .section-title {
     padding: 28px 20px 12px;
     font-family: var(--mono);
@@ -181,7 +183,6 @@
     position: relative; z-index: 5;
   }
 
-  /* ── ROUTE CARDS ── */
   .routes { padding: 0 20px; z-index: 5; position: relative; }
 
   .route-card {
@@ -197,7 +198,6 @@
   }
 
   .route-card:active { transform: scale(.98); }
-
   .route-card:hover { border-color: rgba(0,230,118,.4); }
 
   .route-card::before {
@@ -281,7 +281,6 @@
     margin-top: 10px;
   }
 
-  /* ── ACTION BUTTONS ── */
   .actions { padding: 8px 20px 0; position: relative; z-index: 5; }
 
   .btn-maps {
@@ -327,7 +326,6 @@
 
   .btn-secondary:hover { background: rgba(64,196,255,.08); border-color: var(--blue); }
 
-  /* ── TIPS SECTION ── */
   .tips { padding: 0 20px; position: relative; z-index: 5; }
 
   .tip-card {
@@ -344,7 +342,6 @@
   .tip-text { font-size: 13px; line-height: 1.5; color: #aabbd6; font-weight: 400; }
   .tip-text strong { color: var(--text); font-weight: 600; }
 
-  /* ── EMERGENCY ── */
   .emergency {
     margin: 20px;
     background: rgba(255,82,82,.08);
@@ -380,7 +377,6 @@
   .emg-btn span:first-child { font-size: 22px; }
   .emg-btn span:last-child  { font-size: 12px; font-weight: 600; margin-top: 4px; }
 
-  /* ── FOOTER ── */
   footer {
     text-align: center;
     padding: 24px 20px 36px;
@@ -391,7 +387,6 @@
     position: relative; z-index: 5;
   }
 
-  /* ── LOADING ── */
   #loading {
     position: fixed; inset: 0;
     background: var(--bg);
@@ -421,12 +416,10 @@
     color: var(--green);
   }
 
-  /* ── RTL support for Arabic ── */
   [dir="rtl"] { font-family: var(--arabic); }
   [dir="rtl"] .route-card::before { left: auto; right: 0; border-radius: 0 14px 14px 0; }
   [dir="rtl"] .route-header { flex-direction: row-reverse; }
 
-  /* ── ANIMATE IN ── */
   .animate-in {
     opacity: 0; transform: translateY(18px);
     animation: fadeUp .5s ease forwards;
@@ -434,6 +427,99 @@
 
   @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Modal for Tarjeta info */
+  .modal {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,22,40,.95);
+    backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+
+  .modal.show { display: flex; }
+
+  .modal-content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn .3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(.94); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    transition: all .2s;
+  }
+  .modal-close:hover { background: var(--surface); color: var(--text); }
+
+  .modal-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .15em;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .modal-section {
+    margin-bottom: 20px;
+  }
+
+  .modal-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .modal-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #aabbd6;
+    margin-bottom: 8px;
+  }
+
+  .modal-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .modal-section li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #aabbd6;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .modal-section li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--blue);
   }
 </style>
 </head>
@@ -479,9 +565,9 @@
     <a id="btn-maps" href="#" target="_blank" rel="noopener" class="btn-maps">
       🗺 <span id="btn-maps-text">Open in Google Maps</span>
     </a>
-    <a id="btn-moovit" href="#" target="_blank" rel="noopener" class="btn-secondary">
-      🚇 <span id="btn-moovit-text">Open in Moovit</span>
-    </a>
+    <button id="btn-tarjeta" class="btn-secondary">
+      💳 <span id="btn-tarjeta-text">How to Use Tarjeta CDMX</span>
+    </button>
   </div>
 
   <div class="section-title" id="section-tips-title">— TIPS</div>
@@ -501,6 +587,58 @@
   <footer id="footer-text">NFC TRANSIT · CDMX 2026 · TAP. RIDE. ENJOY.</footer>
 </div>
 
+<!-- Modal Tarjeta CDMX -->
+<div id="modal-tarjeta" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="modal-title">💳 TARJETA CDMX GUIDE</div>
+    
+    <div class="modal-section">
+      <h3 id="modal-what-title">What is it?</h3>
+      <p id="modal-what-text">Rechargeable card for Metro, Metrobus, and Trolebus. Works on all lines. No need for cash tickets.</p>
+    </div>
+
+    <div class="modal-section">
+      <h3 id="modal-buy-title">Where to buy:</h3>
+      <ul id="modal-buy-list">
+        <li>Any Metro station ticket booth</li>
+        <li>Metrobus kiosks (blue stands)</li>
+        <li>OXXO and 7-Eleven stores</li>
+      </ul>
+      <p id="modal-cost-text"><strong>Cost:</strong> $15 MXN (card) + credit you add</p>
+    </div>
+
+    <div class="modal-section">
+      <h3 id="modal-recharge-title">How to recharge:</h3>
+      <ul id="modal-recharge-list">
+        <li>At any Metro ticket booth (cash only)</li>
+        <li>Metrobus machines (cash or card)</li>
+        <li>OXXO stores (say "quiero recargar mi Tarjeta CDMX")</li>
+      </ul>
+      <p id="modal-min-text"><strong>Minimum recharge:</strong> $10 MXN</p>
+    </div>
+
+    <div class="modal-section">
+      <h3 id="modal-fares-title">Fares:</h3>
+      <ul id="modal-fares-list">
+        <li>Metro: $5 MXN per ride</li>
+        <li>Metrobus: $6 MXN per ride</li>
+        <li>Trolebus: $4 MXN per ride</li>
+      </ul>
+    </div>
+
+    <div class="modal-section">
+      <h3 id="modal-tips-title">Pro tips:</h3>
+      <ul id="modal-tips-list">
+        <li>Card works for 10 years</li>
+        <li>Keep it safe — no refunds if lost</li>
+        <li>Can be used by multiple people (one tap per person)</li>
+        <li>Faster than buying single tickets every time</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════
 //  DATA: ZONES × LANGUAGES
@@ -512,7 +650,6 @@ const ZONES = {
     name: { en:"Estadio Azteca", es:"Estadio Azteca", fr:"Stade Aztèque", pt:"Estádio Azteca", ar:"ملعب أزتيكا" },
     time: "35",
     mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
-    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
     routes: [
       {
         type: "metro",
@@ -576,7 +713,6 @@ const ZONES = {
     name: { en:"Airport (AICM)", es:"Aeropuerto (AICM)", fr:"Aéroport (AICM)", pt:"Aeroporto (AICM)", ar:"المطار (AICM)" },
     time: "45",
     mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Aeropuerto+Internacional+Ciudad+de+Mexico&destination=Centro+Historico+CDMX&travelmode=transit",
-    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
     routes: [
       {
         type: "metro",
@@ -640,7 +776,6 @@ const ZONES = {
     name: { en:"Reforma / Zona Rosa", es:"Reforma / Zona Rosa", fr:"Reforma / Zona Rosa", pt:"Reforma / Zona Rosa", ar:"Reforma / زونا روسا" },
     time: "25",
     mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Paseo+de+la+Reforma+Mexico+City&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
-    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
     routes: [
       {
         type: "metro",
@@ -704,7 +839,6 @@ const ZONES = {
     name: { en:"Centro Histórico", es:"Centro Histórico", fr:"Centre Historique", pt:"Centro Histórico", ar:"المركز التاريخي" },
     time: "30",
     mapsUrl: "https://www.google.com/maps/dir/?api=1&origin=Zocalo+Ciudad+de+Mexico&destination=Estadio+Azteca+Ciudad+de+Mexico&travelmode=transit",
-    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
     routes: [
       {
         type: "metro",
@@ -768,7 +902,6 @@ const ZONES = {
     name: { en:"CDMX Transit Hub", es:"Hub de Transporte CDMX", fr:"Hub Transport CDMX", pt:"Hub de Transporte CDMX", ar:"مركز النقل CDMX" },
     time: "—",
     mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=Ciudad+de+Mexico&travelmode=transit",
-    moovitUrl: "https://moovitapp.com/index/es/transporte_p%C3%BAblico-Ciudad_de_M%C3%A9xico",
     routes: [
       {
         type: "metro",
@@ -830,7 +963,7 @@ const I18N = {
     section_routes: "— ROUTES",
     section_tips: "— TIPS",
     btn_maps: "Open in Google Maps",
-    btn_moovit: "Open in Moovit",
+    btn_tarjeta: "How to Use Tarjeta CDMX",
     emg_title: "EMERGENCY",
     emg_tourist: "Tourist Help",
     footer: "NFC TRANSIT · CDMX 2026 · TAP. RIDE. ENJOY.",
@@ -845,7 +978,7 @@ const I18N = {
     section_routes: "— RUTAS",
     section_tips: "— CONSEJOS",
     btn_maps: "Abrir en Google Maps",
-    btn_moovit: "Abrir en Moovit",
+    btn_tarjeta: "Cómo usar Tarjeta CDMX",
     emg_title: "EMERGENCIAS",
     emg_tourist: "Turista 078",
     footer: "NFC TRANSPORTE · CDMX 2026",
@@ -860,7 +993,7 @@ const I18N = {
     section_routes: "— TRAJETS",
     section_tips: "— CONSEILS",
     btn_maps: "Ouvrir dans Google Maps",
-    btn_moovit: "Ouvrir dans Moovit",
+    btn_tarjeta: "Utiliser Tarjeta CDMX",
     emg_title: "URGENCES",
     emg_tourist: "Aide Touriste",
     footer: "NFC TRANSIT · CDMX 2026",
@@ -875,7 +1008,7 @@ const I18N = {
     section_routes: "— ROTAS",
     section_tips: "— DICAS",
     btn_maps: "Abrir no Google Maps",
-    btn_moovit: "Abrir no Moovit",
+    btn_tarjeta: "Como usar Tarjeta CDMX",
     emg_title: "EMERGÊNCIA",
     emg_tourist: "Ajuda Turista",
     footer: "NFC TRÂNSITO · CDMX 2026",
@@ -890,7 +1023,7 @@ const I18N = {
     section_routes: "— المسارات",
     section_tips: "— نصائح",
     btn_maps: "افتح في خرائط Google",
-    btn_moovit: "افتح في Moovit",
+    btn_tarjeta: "كيفية استخدام بطاقة CDMX",
     emg_title: "طوارئ",
     emg_tourist: "مساعدة السياح",
     footer: "NFC النقل · CDMX 2026",
@@ -977,52 +1110,148 @@ function buildTips(zone, lang) {
   });
 }
 
+function openModal() {
+  const modal = document.getElementById('modal-tarjeta');
+  modal.classList.add('show');
+  updateModalText();
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal-tarjeta');
+  modal.classList.remove('show');
+}
+
+function updateModalText() {
+  const lang = currentLang;
+  const content = {
+    en: {
+      title: "💳 TARJETA CDMX GUIDE",
+      what_title: "What is it?",
+      what_text: "Rechargeable card for Metro, Metrobus, and Trolebus. Works on all lines. No need for cash tickets.",
+      buy_title: "Where to buy:",
+      buy_list: ["Any Metro station ticket booth","Metrobus kiosks (blue stands)","OXXO and 7-Eleven stores"],
+      cost_text: "<strong>Cost:</strong> $15 MXN (card) + credit you add",
+      recharge_title: "How to recharge:",
+      recharge_list: ["At any Metro ticket booth (cash only)","Metrobus machines (cash or card)","OXXO stores (say \"quiero recargar mi Tarjeta CDMX\")"],
+      min_text: "<strong>Minimum recharge:</strong> $10 MXN",
+      fares_title: "Fares:",
+      fares_list: ["Metro: $5 MXN per ride","Metrobus: $6 MXN per ride","Trolebus: $4 MXN per ride"],
+      tips_title: "Pro tips:",
+      tips_list: ["Card works for 10 years","Keep it safe — no refunds if lost","Can be used by multiple people (one tap per person)","Faster than buying single tickets every time"]
+    },
+    es: {
+      title: "💳 GUÍA TARJETA CDMX",
+      what_title: "¿Qué es?",
+      what_text: "Tarjeta recargable para Metro, Metrobús y Trolebús. Funciona en todas las líneas. No necesitas boletos en efectivo.",
+      buy_title: "Dónde comprarla:",
+      buy_list: ["Cualquier taquilla del Metro","Kioscos de Metrobús (puestos azules)","Tiendas OXXO y 7-Eleven"],
+      cost_text: "<strong>Costo:</strong> $15 MXN (tarjeta) + saldo que cargues",
+      recharge_title: "Cómo recargar:",
+      recharge_list: ["En cualquier taquilla del Metro (solo efectivo)","Máquinas de Metrobús (efectivo o tarjeta)","Tiendas OXXO (di \"quiero recargar mi Tarjeta CDMX\")"],
+      min_text: "<strong>Recarga mínima:</strong> $10 MXN",
+      fares_title: "Tarifas:",
+      fares_list: ["Metro: $5 MXN por viaje","Metrobús: $6 MXN por viaje","Trolebús: $4 MXN por viaje"],
+      tips_title: "Tips:",
+      tips_list: ["La tarjeta funciona 10 años","Cuídala — no hay reembolso si la pierdes","Puede usarla más de una persona (un toque por persona)","Más rápido que comprar boletos individuales"]
+    },
+    fr: {
+      title: "💳 GUIDE TARJETA CDMX",
+      what_title: "Qu'est-ce que c'est?",
+      what_text: "Carte rechargeable pour Métro, Métrobus et Trolleybus. Valable sur toutes les lignes. Pas besoin de tickets en espèces.",
+      buy_title: "Où l'acheter:",
+      buy_list: ["Guichet de n'importe quelle station de Métro","Kiosques Métrobus (stands bleus)","Magasins OXXO et 7-Eleven"],
+      cost_text: "<strong>Prix:</strong> 15 MXN (carte) + crédit que vous ajoutez",
+      recharge_title: "Comment recharger:",
+      recharge_list: ["Guichet de Métro (espèces uniquement)","Machines Métrobus (espèces ou carte)","Magasins OXXO"],
+      min_text: "<strong>Recharge minimum:</strong> 10 MXN",
+      fares_title: "Tarifs:",
+      fares_list: ["Métro: 5 MXN par trajet","Métrobus: 6 MXN par trajet","Trolleybus: 4 MXN par trajet"],
+      tips_title: "Conseils:",
+      tips_list: ["Carte valable 10 ans","Gardez-la en sécurité — pas de remboursement si perdue","Utilisable par plusieurs personnes (un passage par personne)","Plus rapide que d'acheter des tickets à chaque fois"]
+    },
+    pt: {
+      title: "💳 GUIA TARJETA CDMX",
+      what_title: "O que é?",
+      what_text: "Cartão recarregável para Metrô, Metrobus e Trólebus. Funciona em todas as linhas. Sem necessidade de passagens em dinheiro.",
+      buy_title: "Onde comprar:",
+      buy_list: ["Qualquer guichê do Metrô","Quiosques Metrobus (cabines azuis)","Lojas OXXO e 7-Eleven"],
+      cost_text: "<strong>Custo:</strong> $15 MXN (cartão) + crédito que você adiciona",
+      recharge_title: "Como recarregar:",
+      recharge_list: ["Guichê do Metrô (apenas dinheiro)","Máquinas Metrobus (dinheiro ou cartão)","Lojas OXXO"],
+      min_text: "<strong>Recarga mínima:</strong> $10 MXN",
+      fares_title: "Tarifas:",
+      fares_list: ["Metrô: $5 MXN por viagem","Metrobus: $6 MXN por viagem","Trólebus: $4 MXN por viagem"],
+      tips_title: "Dicas:",
+      tips_list: ["Cartão válido por 10 anos","Guarde bem — sem reembolso se perdido","Pode ser usado por várias pessoas (um toque por pessoa)","Mais rápido que comprar passagens individuais"]
+    },
+    ar: {
+      title: "💳 دليل بطاقة CDMX",
+      what_title: "ما هي؟",
+      what_text: "بطاقة قابلة لإعادة الشحن للمترو والميتروباص والترولي. تعمل في جميع الخطوط. لا حاجة لتذاكر نقدية.",
+      buy_title: "أين تشتريها:",
+      buy_list: ["أي شباك تذاكر المترو","أكشاك الميتروباص (الأكشاك الزرقاء)","متاجر OXXO و7-Eleven"],
+      cost_text: "<strong>التكلفة:</strong> 15 بيزو (البطاقة) + الرصيد الذي تضيفه",
+      recharge_title: "كيفية إعادة الشحن:",
+      recharge_list: ["في أي شباك تذاكر المترو (نقداً فقط)","آلات الميتروباص (نقداً أو بطاقة)","متاجر OXXO"],
+      min_text: "<strong>الحد الأدنى للشحن:</strong> 10 بيزو",
+      fares_title: "الأسعار:",
+      fares_list: ["المترو: 5 بيزو للرحلة","الميتروباص: 6 بيزو للرحلة","الترولي: 4 بيزو للرحلة"],
+      tips_title: "نصائح:",
+      tips_list: ["البطاقة صالحة لمدة 10 سنوات","احتفظ بها بأمان — لا استرداد إذا ضاعت","يمكن استخدامها من قبل عدة أشخاص (لمسة واحدة لكل شخص)","أسرع من شراء تذاكر فردية في كل مرة"]
+    }
+  };
+
+  const c = content[lang] || content.en;
+
+  document.getElementById('modal-title').textContent = c.title;
+  document.getElementById('modal-what-title').textContent = c.what_title;
+  document.getElementById('modal-what-text').textContent = c.what_text;
+  document.getElementById('modal-buy-title').textContent = c.buy_title;
+  document.getElementById('modal-buy-list').innerHTML = c.buy_list.map(t => `<li>${t}</li>`).join('');
+  document.getElementById('modal-cost-text').innerHTML = c.cost_text;
+  document.getElementById('modal-recharge-title').textContent = c.recharge_title;
+  document.getElementById('modal-recharge-list').innerHTML = c.recharge_list.map(t => `<li>${t}</li>`).join('');
+  document.getElementById('modal-min-text').innerHTML = c.min_text;
+  document.getElementById('modal-fares-title').textContent = c.fares_title;
+  document.getElementById('modal-fares-list').innerHTML = c.fares_list.map(t => `<li>${t}</li>`).join('');
+  document.getElementById('modal-tips-title').textContent = c.tips_title;
+  document.getElementById('modal-tips-list').innerHTML = c.tips_list.map(t => `<li>${t}</li>`).join('');
+}
+
 function render() {
   const zone = ZONES[currentZone];
   const lang = currentLang;
   const t = I18N[lang];
 
-  // RTL
   document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
   document.documentElement.setAttribute('lang', lang);
 
-  // Hero
   document.getElementById('zone-badge').textContent = `${t.zone_prefix}: ${zone.name[lang] || zone.name.en}`;
   document.getElementById('hero-title').innerHTML = `${t.hero_title}<br><span>${zone.name[lang] || zone.name.en}</span>`;
   document.getElementById('hero-sub').textContent = t.hero_sub;
 
-  // Stats
   document.getElementById('stat-time').textContent = zone.time;
   document.getElementById('stat-cost-lbl').textContent = t.stat_cost_lbl.replace('\n', ' ');
   document.getElementById('stat-time-lbl').textContent = t.stat_time_lbl.replace('\n', ' ');
   document.getElementById('stat-save-lbl').textContent = t.stat_save_lbl.replace('\n', ' ');
 
-  // Sections
   document.getElementById('section-routes-title').textContent = t.section_routes;
   document.getElementById('section-tips-title').textContent = t.section_tips;
 
-  // Buttons
   document.getElementById('btn-maps').href = zone.mapsUrl;
-  document.getElementById('btn-moovit').href = zone.moovitUrl;
   document.getElementById('btn-maps-text').textContent = t.btn_maps;
-  document.getElementById('btn-moovit-text').textContent = t.btn_moovit;
+  document.getElementById('btn-tarjeta-text').textContent = t.btn_tarjeta;
 
-  // Emergency
   document.getElementById('emg-title').textContent = t.emg_title;
   document.getElementById('emg-tourist').textContent = t.emg_tourist;
 
-  // Footer
   document.getElementById('footer-text').textContent = t.footer;
 
-  // Lang selector
   buildLangSelector();
-
-  // Routes + Tips
   buildRoutes(zone, lang);
   buildTips(zone, lang);
 }
 
-// ── BOOT ──
 window.addEventListener('DOMContentLoaded', () => {
   currentLang = detectLang();
   currentZone = detectZone();
@@ -1034,6 +1263,11 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     render();
     document.getElementById('app').style.display = 'block';
+    document.getElementById('btn-tarjeta').addEventListener('click', openModal);
+    document.getElementById('modal-tarjeta').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-tarjeta') closeModal();
+    });
+
     const loading = document.getElementById('loading');
     loading.classList.add('fade');
     setTimeout(() => loading.style.display = 'none', 500);
